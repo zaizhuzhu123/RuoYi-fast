@@ -8,17 +8,22 @@ import com.ruoyi.framework.web.controller.BaseController;
 
 /**
  * swagger 接口
- * 
+ *
  * @author ruoyi
  */
 @Controller
 @RequestMapping("/tool/swagger")
-public class SwaggerController extends BaseController
-{
+public class SwaggerController extends BaseController {
+//    @RequiresPermissions("tool:swagger:view")
+//    @GetMapping()
+//    public String index()
+//    {
+//        return redirect("/swagger-ui/index.html");
+//    }
+
     @RequiresPermissions("tool:swagger:view")
     @GetMapping()
-    public String index()
-    {
-        return redirect("/swagger-ui/index.html");
+    public String index() {
+        return redirect("/doc.html");
     }
 }

@@ -12,6 +12,7 @@ import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Contact;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
+import springfox.documentation.swagger2.annotations.EnableSwagger2WebMvc;
 
 /**
  * Swagger2的接口配置
@@ -19,6 +20,7 @@ import springfox.documentation.spring.web.plugins.Docket;
  * @author ruoyi
  */
 @Configuration
+@EnableSwagger2WebMvc
 public class SwaggerConfig
 {
     /** 系统基础配置 */
@@ -35,7 +37,7 @@ public class SwaggerConfig
     @Bean
     public Docket createRestApi()
     {
-        return new Docket(DocumentationType.OAS_30)
+        return new Docket(DocumentationType.SWAGGER_2)
                 // 是否启用Swagger
                 .enable(enabled)
                 // 用来创建该API的基本信息，展示在文档的页面中（自定义展示的信息）

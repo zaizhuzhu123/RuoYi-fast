@@ -288,6 +288,13 @@ public class ShiroConfig
         filterChainDefinitionMap.put("/js/**", "anon");
         filterChainDefinitionMap.put("/ruoyi/**", "anon");
         filterChainDefinitionMap.put("/captcha/captchaImage**", "anon");
+        //放过swagger相关
+        filterChainDefinitionMap.put("/doc.html", "anon");
+        filterChainDefinitionMap.put("/webjars/**/**", "anon");
+        filterChainDefinitionMap.put("/swagger/**", "anon");
+        filterChainDefinitionMap.put( "/v2/**","anon");
+        filterChainDefinitionMap.put( "/static/**", "anon");
+        filterChainDefinitionMap.put("/swagger-resources/**", "anon");
         // 退出 logout地址，shiro去清除session
         filterChainDefinitionMap.put("/logout", "logout");
         // 不需要拦截的访问
