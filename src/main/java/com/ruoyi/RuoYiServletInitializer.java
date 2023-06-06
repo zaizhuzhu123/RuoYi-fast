@@ -1,5 +1,6 @@
 package com.ruoyi;
 
+import com.laien.demo.RuoYiApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 

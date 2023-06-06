@@ -38,7 +38,13 @@
         <oshi.version>6.4.1</oshi.version>
         <lombok.version>1.18.20</lombok.version>
         <mybatis-plus.version>3.2.0</mybatis-plus.version>
-
+        <okhttp.version>3.14.9</okhttp.version>
+        <mybatis.version>3.5.7</mybatis.version>
+        <guava.version>23.0</guava.version>
+        <redisson.version>3.16.3</redisson.version>
+        <tika-core.version>1.24.1</tika-core.version>
+        <knife4j.version>2.0.9</knife4j.version>
+        <afterburner.version>2.12.0</afterburner.version>
     </properties>
 
     <dependencies>
@@ -99,7 +105,6 @@
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
         </dependency>
-
 
 
         <!-- 阿里数据库连接池 -->
@@ -163,6 +168,13 @@
             <version>${fastjson.version}</version>
         </dependency>
 
+        <!-- guava -->
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>${guava.version}</version>
+        </dependency>
+
         <!-- 解析客户端操作系统、浏览器等 -->
         <dependency>
             <groupId>eu.bitwalker</groupId>
@@ -219,28 +231,40 @@
         <dependency>
             <groupId>com.github.xiaoymin</groupId>
             <artifactId>knife4j-spring-boot-starter</artifactId>
-            <version>2.0.9</version>
+            <version>${knife4j.version}</version>
         </dependency>
 
-        <!--        &lt;!&ndash; Swagger3依赖 &ndash;&gt;-->
-        <!--        <dependency>-->
-        <!--            <groupId>io.springfox</groupId>-->
-        <!--            <artifactId>springfox-boot-starter</artifactId>-->
-        <!--            <version>${swagger.version}</version>-->
-        <!--            <exclusions>-->
-        <!--                <exclusion>-->
-        <!--                    <groupId>io.swagger</groupId>-->
-        <!--                    <artifactId>swagger-models</artifactId>-->
-        <!--                </exclusion>-->
-        <!--            </exclusions>-->
-        <!--        </dependency>-->
-        <!--        -->
-        <!--        &lt;!&ndash; 防止进入swagger页面报类型转换错误，排除3.0.0中的引用，手动增加1.6.2版本 &ndash;&gt;-->
-        <!--        <dependency>-->
-        <!--            <groupId>io.swagger</groupId>-->
-        <!--            <artifactId>swagger-models</artifactId>-->
-        <!--            <version>1.6.2</version>-->
-        <!--        </dependency>-->
+        <!-- tika -->
+        <dependency>
+            <groupId>org.apache.tika</groupId>
+            <artifactId>tika-core</artifactId>
+            <version>${tika-core.version}</version>
+        </dependency>
+
+        <!-- redisson -->
+        <dependency>
+            <groupId>org.redisson</groupId>
+            <artifactId>redisson</artifactId>
+            <version>${redisson.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.redisson</groupId>
+            <artifactId>redisson-spring-boot-starter</artifactId>
+            <version>${redisson.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.redisson</groupId>
+            <artifactId>redisson-spring-data-25</artifactId>
+            <version>${redisson.version}</version>
+        </dependency>
+
+        <!-- afterburner -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.module</groupId>
+            <artifactId>jackson-module-afterburner</artifactId>
+            <version>${afterburner.version}</version>
+        </dependency>
 
         <!-- 获取系统信息 -->
         <dependency>
@@ -270,32 +294,38 @@
         </dependency>
 
         <!-- pagehelper 分页插件 -->
-<!--        <dependency>-->
-<!--            <groupId>com.github.pagehelper</groupId>-->
-<!--            <artifactId>pagehelper-spring-boot-starter</artifactId>-->
-<!--            <version>${pagehelper.spring.boot.starter.version}</version>-->
+        <!--        <dependency>-->
+        <!--            <groupId>com.github.pagehelper</groupId>-->
+        <!--            <artifactId>pagehelper-spring-boot-starter</artifactId>-->
+        <!--            <version>${pagehelper.spring.boot.starter.version}</version>-->
 
-<!--        </dependency>-->
+        <!--        </dependency>-->
 
         <dependency>
             <groupId>com.github.pagehelper</groupId>
             <artifactId>pagehelper-spring-boot-starter</artifactId>
             <version>1.2.13</version>
-            <!--            &lt;!&ndash; 去除mybatis依赖 &ndash;&gt;-->
-                        <exclusions>
-                            <exclusion>
-                                <groupId>org.mybatis</groupId>
-                                <artifactId>mybatis</artifactId>
-                            </exclusion>
-                        </exclusions>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.mybatis</groupId>
+                    <artifactId>mybatis</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
 
         <dependency>
             <groupId>org.mybatis</groupId>
             <artifactId>mybatis</artifactId>
-            <version>3.5.7</version>
+            <version>${mybatis.version}</version>
             <scope>compile</scope>
+        </dependency>
+
+        <!-- okhttp -->
+        <dependency>
+            <groupId>com.squareup.okhttp3</groupId>
+            <artifactId>okhttp</artifactId>
+            <version>${okhttp.version}</version>
         </dependency>
 
     </dependencies>
@@ -345,25 +375,61 @@
         </plugins>
     </build>
 
+    <!-- 仓库 -->
     <repositories>
         <repository>
-            <id>public</id>
-            <name>aliyun nexus</name>
-            <url>https://maven.aliyun.com/repository/public</url>
+            <id>aliyun-repos</id>
+            <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>spring-snapshot</id>
+            <name>Spring Snapshots</name>
+            <url>https://repo.spring.io/snapshot</url>
             <releases>
-                <enabled>true</enabled>
+                <enabled>false</enabled>
             </releases>
+        </repository>
+        <repository>
+            <id>spring-release</id>
+            <name>Spring release</name>
+            <url>https://repo.spring.io/release</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>spring-milestone</id>
+            <name>Spring milestone</name>
+            <url>https://repo.spring.io/milestone</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
         </repository>
     </repositories>
 
     <pluginRepositories>
         <pluginRepository>
-            <id>public</id>
-            <name>aliyun nexus</name>
-            <url>https://maven.aliyun.com/repository/public</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
+            <id>aliyun-plugin</id>
+            <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </pluginRepository>
+        <pluginRepository>
+            <name>Spring release</name>
+            <id>release</id>
+            <url>https://repo.spring.io/release</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </pluginRepository>
+        <pluginRepository>
+            <id>spring-milestone</id>
+            <name>Spring milestone</name>
+            <url>https://repo.spring.io/milestone</url>
             <snapshots>
                 <enabled>false</enabled>
             </snapshots>

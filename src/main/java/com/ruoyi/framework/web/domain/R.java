@@ -12,14 +12,14 @@ public class R<T> implements Serializable
     private static final long serialVersionUID = 1L;
 
     /** 成功 */
-    public static final int SUCCESS = 0;
+    public static final int SUCCESS = 200;
 
     /** 失败 */
     public static final int FAIL = 500;
 
     private int code;
 
-    private String msg;
+    private String message;
 
     private T data;
 
@@ -68,7 +68,7 @@ public class R<T> implements Serializable
         R<T> apiResult = new R<>();
         apiResult.setCode(code);
         apiResult.setData(data);
-        apiResult.setMsg(msg);
+        apiResult.setMessage(msg);
         return apiResult;
     }
 
@@ -82,14 +82,14 @@ public class R<T> implements Serializable
         this.code = code;
     }
 
-    public String getMsg()
+    public String getMessage()
     {
-        return msg;
+        return message;
     }
 
-    public void setMsg(String msg)
+    public void setMessage(String message)
     {
-        this.msg = msg;
+        this.message = message;
     }
 
     public T getData()

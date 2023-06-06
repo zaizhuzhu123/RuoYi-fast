@@ -65,11 +65,11 @@ spring:
   messages:
     # 国际化资源文件路径
     basename: static/i18n/messages
-  jackson:
-    time-zone: GMT+8
-    date-format: yyyy-MM-dd HH:mm:ss
+#  jackson:
+#    time-zone: GMT+8
+#    date-format: yyyy-MM-dd HH:mm:ss
   profiles:
-    active: druid
+    active: dev
   # 文件上传
   servlet:
     multipart:
@@ -145,11 +145,6 @@ xss:
   excludes: /system/notice/*
   # 匹配链接
   urlPatterns: /system/*,/monitor/*,/tool/*
-
-# Swagger配置
-swagger:
-  # 是否开启swagger
-  enabled: true
 
 # 代码生成
 gen:
