@@ -101,7 +101,7 @@
                 if (result.code == web_status.SUCCESS) {
                     location.href = ctx + 'index';
                 } else {
-                    $.modal.msg(result.msg);
+                    $.modal.msg(result.message);
                     $("input[name='password']").val("");
                 }
                 layer.close(index);

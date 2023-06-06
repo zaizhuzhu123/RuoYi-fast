@@ -381,11 +381,11 @@ var table = {
                     $.modal.loading("正在导出数据，请稍候...");
                     $.post(table.options.exportUrl, dataParam, function(result) {
                         if (result.code == web_status.SUCCESS) {
-                            window.location.href = ctx + "common/download?fileName=" + encodeURI(result.msg) + "&delete=" + true;
+                            window.location.href = ctx + "common/download?fileName=" + encodeURI(result.message) + "&delete=" + true;
                         } else if (result.code == web_status.WARNING) {
-                            $.modal.alertWarning(result.msg)
+                            $.modal.alertWarning(result.message)
                         } else {
-                            $.modal.alertError(result.msg);
+                            $.modal.alertError(result.message);
                         }
                         $.modal.closeLoading();
                     });
@@ -395,11 +395,11 @@ var table = {
             importTemplate: function() {
                 $.get(activeWindow().table.options.importTemplateUrl, function(result) {
                     if (result.code == web_status.SUCCESS) {
-                        window.location.href = ctx + "common/download?fileName=" + encodeURI(result.msg) + "&delete=" + true;
+                        window.location.href = ctx + "common/download?fileName=" + encodeURI(result.message) + "&delete=" + true;
                     } else if (result.code == web_status.WARNING) {
-                        $.modal.alertWarning(result.msg)
+                        $.modal.alertWarning(result.message)
                     } else {
-                        $.modal.alertError(result.msg);
+                        $.modal.alertError(result.message);
                     }
                 });
             },
@@ -441,16 +441,16 @@ var table = {
                                 if (result.code == web_status.SUCCESS) {
                                 	$.modal.close(index);
                                     $.modal.closeAll();
-                                    $.modal.alertSuccess(result.msg);
+                                    $.modal.alertSuccess(result.message);
                                     $.table.refresh();
                                 } else if (result.code == web_status.WARNING) {
                                 	$.modal.close(index);
                                     $.modal.enable();
-                                    $.modal.alertWarning(result.msg)
+                                    $.modal.alertWarning(result.message)
                                 } else {
                                     $.modal.close(index);
                                     $.modal.enable();
-                                    $.modal.alertError(result.msg);
+                                    $.modal.alertError(result.message);
                                 }
                             },
                             complete: function () {
@@ -1229,11 +1229,11 @@ var table = {
                             callback(result);
                         }
                         if (result.code == web_status.SUCCESS) {
-                            $.modal.alertSuccess(result.msg)
+                            $.modal.alertSuccess(result.message)
                         } else if (result.code == web_status.WARNING) {
-                            $.modal.alertWarning(result.msg)
+                            $.modal.alertWarning(result.message)
                         } else {
-                            $.modal.alertError(result.msg);
+                            $.modal.alertError(result.message);
                         }
                         $.modal.closeLoading();
                     }
@@ -1262,28 +1262,28 @@ var table = {
             // 保存结果弹出msg刷新table表格
             ajaxSuccess: function (result) {
                 if (result.code == web_status.SUCCESS && table.options.type == table_type.bootstrapTable) {
-                    $.modal.msgSuccess(result.msg);
+                    $.modal.msgSuccess(result.message);
                     $.table.refresh();
                 } else if (result.code == web_status.SUCCESS && table.options.type == table_type.bootstrapTreeTable) {
-                    $.modal.msgSuccess(result.msg);
+                    $.modal.msgSuccess(result.message);
                     $.treeTable.refresh();
                 } else if (result.code == web_status.SUCCESS && $.common.isEmpty(table.options.type)) {
-                    $.modal.msgSuccess(result.msg)
+                    $.modal.msgSuccess(result.message)
                 }  else if (result.code == web_status.WARNING) {
-                    $.modal.alertWarning(result.msg)
+                    $.modal.alertWarning(result.message)
                 }  else {
-                    $.modal.alertError(result.msg);
+                    $.modal.alertError(result.message);
                 }
                 $.modal.closeLoading();
             },
             // 保存结果重新加载页面
             saveReload: function (result) {
                 if (result.code == web_status.SUCCESS) {
-                    $.modal.msgSuccessReload(result.msg);
+                    $.modal.msgSuccessReload(result.message);
                 } else if (result.code == web_status.WARNING) {
-                    $.modal.alertWarning(result.msg)
+                    $.modal.alertWarning(result.message)
                 }  else {
-                    $.modal.alertError(result.msg);
+                    $.modal.alertError(result.message);
                 }
                 $.modal.closeLoading();
             },
@@ -1292,20 +1292,20 @@ var table = {
                 if (result.code == web_status.SUCCESS) {
                     var parent = activeWindow();
                     if ($.common.isEmpty(parent.table)) {
-                    	$.modal.msgSuccessReload(result.msg);
+                    	$.modal.msgSuccessReload(result.message);
                     } else if (parent.table.options.type == table_type.bootstrapTable) {
                         $.modal.close();
-                        parent.$.modal.msgSuccess(result.msg);
+                        parent.$.modal.msgSuccess(result.message);
                         parent.$.table.refresh();
                     } else if (parent.table.options.type == table_type.bootstrapTreeTable) {
                         $.modal.close();
-                        parent.$.modal.msgSuccess(result.msg);
+                        parent.$.modal.msgSuccess(result.message);
                         parent.$.treeTable.refresh();
                     }
                 } else if (result.code == web_status.WARNING) {
-                    $.modal.alertWarning(result.msg)
+                    $.modal.alertWarning(result.message)
                 }  else {
-                    $.modal.alertError(result.msg);
+                    $.modal.alertError(result.message);
                 }
                 $.modal.closeLoading();
                 $.modal.enable();
@@ -1318,7 +1318,7 @@ var table = {
                     var topWindow = $('.RuoYi_iframe[data-id="' + currentId + '"]', topWindow)[0];
                     if ($.common.isNotEmpty(topWindow) && $.common.isNotEmpty(currentId)) {
                     	var $contentWindow = topWindow.contentWindow;
-                    	$contentWindow.$.modal.msgSuccess(result.msg);
+                    	$contentWindow.$.modal.msgSuccess(result.message);
                         $contentWindow.$(".layui-layer-padding").removeAttr("style");
                         if ($contentWindow.table.options.type == table_type.bootstrapTable) {
                             $contentWindow.$.table.refresh();
@@ -1326,14 +1326,14 @@ var table = {
                             $contentWindow.$.treeTable.refresh();
                         }
                     } else {
-                        $.modal.msgSuccess(result.msg);
+                        $.modal.msgSuccess(result.message);
                     }
                     $.modal.close();
                     $.modal.closeTab();
                 } else if (result.code == web_status.WARNING) {
-                    $.modal.alertWarning(result.msg)
+                    $.modal.alertWarning(result.message)
                 } else {
-                    $.modal.alertError(result.msg);
+                    $.modal.alertError(result.message);
                 }
                 $.modal.closeLoading();
             }

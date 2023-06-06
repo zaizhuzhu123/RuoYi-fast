@@ -155,7 +155,7 @@ function clearCacheName(cacheName){
 			$.modal.msgSuccess("清理缓存[" + cacheName + "]成功")
 			getCacheKeys(cacheName);
         } else {
-            $.modal.msgError(result.msg);
+            $.modal.msgError(result.message);
         }
 	});
 }
@@ -166,7 +166,7 @@ function clearCacheKey(cacheName, cacheKey) {
 			$.modal.msgSuccess("清理缓存[" + cacheKey + "]成功")
 			getCacheKeys(cacheName);
         } else {
-            $.modal.msgError(result.msg);
+            $.modal.msgError(result.message);
         }
 	});
 }
@@ -176,7 +176,7 @@ function clearAll(){
 		if (result.code == web_status.SUCCESS) {
 			$.modal.msgSuccess("清理全部缓存成功")
         } else {
-            $.modal.msgError(result.msg);
+            $.modal.msgError(result.message);
         }
 	});
 }

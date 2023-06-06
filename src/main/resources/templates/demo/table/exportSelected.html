@@ -108,9 +108,9 @@
         	$.modal.confirm(tipMsg, function() {
     			$.post(prefix + "/exportData", dataParam, function(result) {
                     if (result.code == web_status.SUCCESS) {
-                        window.location.href = ctx + "common/download?fileName=" + encodeURI(result.msg) + "&delete=" + true;
+                        window.location.href = ctx + "common/download?fileName=" + encodeURI(result.message) + "&delete=" + true;
                     } else {
-                        $.modal.alertError(result.msg);
+                        $.modal.alertError(result.message);
                     }
                 });
         	});

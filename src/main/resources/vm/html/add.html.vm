@@ -259,7 +259,7 @@
                     		    if (result.code == web_status.SUCCESS) {
                     		        $('#' + obj.id).summernote('insertImage', result.url);
                     		    } else {
-                    		        $.modal.alertError(result.msg);
+                    		        $.modal.alertError(result.message);
                     		    }
                     		},
                     		error: function(error) {
