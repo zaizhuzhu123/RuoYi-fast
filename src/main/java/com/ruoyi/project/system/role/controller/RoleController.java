@@ -94,11 +94,11 @@ public class RoleController extends BaseController
     {
         if (!roleService.checkRoleNameUnique(role))
         {
-            return error("新增角色'" + role.getRoleName() + "'失败，角色名称已存在");
+            return fail("新增角色'" + role.getRoleName() + "'失败，角色名称已存在");
         }
         else if (!roleService.checkRoleKeyUnique(role))
         {
-            return error("新增角色'" + role.getRoleName() + "'失败，角色权限已存在");
+            return fail("新增角色'" + role.getRoleName() + "'失败，角色权限已存在");
         }
         AuthorizationUtils.clearAllCachedAuthorizationInfo();
         return toAjax(roleService.insertRole(role));
@@ -130,11 +130,11 @@ public class RoleController extends BaseController
         roleService.checkRoleDataScope(role.getRoleId());
         if (!roleService.checkRoleNameUnique(role))
         {
-            return error("修改角色'" + role.getRoleName() + "'失败，角色名称已存在");
+            return fail("修改角色'" + role.getRoleName() + "'失败，角色名称已存在");
         }
         else if (!roleService.checkRoleKeyUnique(role))
         {
-            return error("修改角色'" + role.getRoleName() + "'失败，角色权限已存在");
+            return fail("修改角色'" + role.getRoleName() + "'失败，角色权限已存在");
         }
         AuthorizationUtils.clearAllCachedAuthorizationInfo();
         return toAjax(roleService.updateRole(role));
@@ -167,7 +167,7 @@ public class RoleController extends BaseController
             setSysUser(userService.selectUserById(getUserId()));
             return success();
         }
-        return error();
+        return fail();
     }
 
     @RequiresPermissions("system:role:remove")

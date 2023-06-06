@@ -83,7 +83,7 @@ public class BaseController
     protected TableDataInfo getDataTable(List<?> list)
     {
         TableDataInfo rspData = new TableDataInfo();
-        rspData.setCode(0);
+        rspData.setCode(Type.SUCCESS.value());
         rspData.setRows(list);
         rspData.setTotal(new PageInfo(list).getTotal());
         return rspData;
@@ -97,7 +97,7 @@ public class BaseController
      */
     protected AjaxResult toAjax(int rows)
     {
-        return rows > 0 ? success() : error();
+        return rows > 0 ? success() : fail();
     }
 
     /**
@@ -108,7 +108,7 @@ public class BaseController
      */
     protected AjaxResult toAjax(boolean result)
     {
-        return result ? success() : error();
+        return result ? success() : fail();
     }
 
     /**
@@ -122,7 +122,7 @@ public class BaseController
     /**
      * 返回失败消息
      */
-    public AjaxResult error()
+    public AjaxResult fail()
     {
         return AjaxResult.error();
     }
@@ -146,7 +146,7 @@ public class BaseController
     /**
      * 返回失败消息
      */
-    public AjaxResult error(String message)
+    public AjaxResult fail(String message)
     {
         return AjaxResult.error(message);
     }
@@ -154,7 +154,7 @@ public class BaseController
     /**
      * 返回错误码消息
      */
-    public AjaxResult error(Type type, String message)
+    public AjaxResult fail(Type type, String message)
     {
         return new AjaxResult(type, message);
     }

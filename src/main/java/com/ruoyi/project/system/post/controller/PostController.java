@@ -74,7 +74,7 @@ public class PostController extends BaseController
         }
         catch (Exception e)
         {
-            return error(e.getMessage());
+            return fail(e.getMessage());
         }
     }
 
@@ -98,11 +98,11 @@ public class PostController extends BaseController
     {
         if (!postService.checkPostNameUnique(post))
         {
-            return error("新增岗位'" + post.getPostName() + "'失败，岗位名称已存在");
+            return fail("新增岗位'" + post.getPostName() + "'失败，岗位名称已存在");
         }
         else if (!postService.checkPostCodeUnique(post))
         {
-            return error("新增岗位'" + post.getPostName() + "'失败，岗位编码已存在");
+            return fail("新增岗位'" + post.getPostName() + "'失败，岗位编码已存在");
         }
         return toAjax(postService.insertPost(post));
     }
@@ -129,11 +129,11 @@ public class PostController extends BaseController
     {
         if (!postService.checkPostNameUnique(post))
         {
-            return error("修改岗位'" + post.getPostName() + "'失败，岗位名称已存在");
+            return fail("修改岗位'" + post.getPostName() + "'失败，岗位名称已存在");
         }
         else if (!postService.checkPostCodeUnique(post))
         {
-            return error("修改岗位'" + post.getPostName() + "'失败，岗位编码已存在");
+            return fail("修改岗位'" + post.getPostName() + "'失败，岗位编码已存在");
         }
         return toAjax(postService.updatePost(post));
     }

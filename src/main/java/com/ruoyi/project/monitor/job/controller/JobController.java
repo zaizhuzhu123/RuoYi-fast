@@ -112,7 +112,7 @@ public class JobController extends BaseController
     public AjaxResult run(Job job) throws SchedulerException
     {
         boolean result = jobService.run(job);
-        return result ? success() : error("任务不存在或已过期！");
+        return result ? success() : fail("任务不存在或已过期！");
     }
 
     /**
@@ -135,27 +135,27 @@ public class JobController extends BaseController
     {
         if (!CronUtils.isValid(job.getCronExpression()))
         {
-            return error("新增任务'" + job.getJobName() + "'失败，Cron表达式不正确");
+            return fail("新增任务'" + job.getJobName() + "'失败，Cron表达式不正确");
         }
         else if (StringUtils.containsIgnoreCase(job.getInvokeTarget(), Constants.LOOKUP_RMI))
         {
-            return error("新增任务'" + job.getJobName() + "'失败，目标字符串不允许'rmi'调用");
+            return fail("新增任务'" + job.getJobName() + "'失败，目标字符串不允许'rmi'调用");
         }
         else if (StringUtils.containsAnyIgnoreCase(job.getInvokeTarget(), new String[] { Constants.LOOKUP_LDAP, Constants.LOOKUP_LDAPS }))
         {
-            return error("新增任务'" + job.getJobName() + "'失败，目标字符串不允许'ldap(s)'调用");
+            return fail("新增任务'" + job.getJobName() + "'失败，目标字符串不允许'ldap(s)'调用");
         }
         else if (StringUtils.containsAnyIgnoreCase(job.getInvokeTarget(), new String[] { Constants.HTTP, Constants.HTTPS }))
         {
-            return error("新增任务'" + job.getJobName() + "'失败，目标字符串不允许'http(s)'调用");
+            return fail("新增任务'" + job.getJobName() + "'失败，目标字符串不允许'http(s)'调用");
         }
         else if (StringUtils.containsAnyIgnoreCase(job.getInvokeTarget(), Constants.JOB_ERROR_STR))
         {
-            return error("新增任务'" + job.getJobName() + "'失败，目标字符串存在违规");
+            return fail("新增任务'" + job.getJobName() + "'失败，目标字符串存在违规");
         }
         else if (!ScheduleUtils.whiteList(job.getInvokeTarget()))
         {
-            return error("新增任务'" + job.getJobName() + "'失败，目标字符串不在白名单内");
+            return fail("新增任务'" + job.getJobName() + "'失败，目标字符串不在白名单内");
         }
         job.setCreateBy(getLoginName());
         return toAjax(jobService.insertJob(job));
@@ -183,27 +183,27 @@ public class JobController extends BaseController
     {
         if (!CronUtils.isValid(job.getCronExpression()))
         {
-            return error("修改任务'" + job.getJobName() + "'失败，Cron表达式不正确");
+            return fail("修改任务'" + job.getJobName() + "'失败，Cron表达式不正确");
         }
         else if (StringUtils.containsIgnoreCase(job.getInvokeTarget(), Constants.LOOKUP_RMI))
         {
-            return error("修改任务'" + job.getJobName() + "'失败，目标字符串不允许'rmi'调用");
+            return fail("修改任务'" + job.getJobName() + "'失败，目标字符串不允许'rmi'调用");
         }
         else if (StringUtils.containsAnyIgnoreCase(job.getInvokeTarget(), new String[] { Constants.LOOKUP_LDAP, Constants.LOOKUP_LDAPS }))
         {
-            return error("修改任务'" + job.getJobName() + "'失败，目标字符串不允许'ldap'调用");
+            return fail("修改任务'" + job.getJobName() + "'失败，目标字符串不允许'ldap'调用");
         }
         else if (StringUtils.containsAnyIgnoreCase(job.getInvokeTarget(), new String[] { Constants.HTTP, Constants.HTTPS }))
         {
-            return error("修改任务'" + job.getJobName() + "'失败，目标字符串不允许'http(s)//'调用");
+            return fail("修改任务'" + job.getJobName() + "'失败，目标字符串不允许'http(s)//'调用");
         }
         else if (StringUtils.containsAnyIgnoreCase(job.getInvokeTarget(), Constants.JOB_ERROR_STR))
         {
-            return error("修改任务'" + job.getJobName() + "'失败，目标字符串存在违规");
+            return fail("修改任务'" + job.getJobName() + "'失败，目标字符串存在违规");
         }
         else if (!ScheduleUtils.whiteList(job.getInvokeTarget()))
         {
-            return error("修改任务'" + job.getJobName() + "'失败，目标字符串不在白名单内");
+            return fail("修改任务'" + job.getJobName() + "'失败，目标字符串不在白名单内");
         }
         job.setUpdateBy(getLoginName());
         return toAjax(jobService.updateJob(job));
@@ -243,7 +243,7 @@ public class JobController extends BaseController
         }
         else
         {
-            return error("表达式无效");
+            return fail("表达式无效");
         }
     }
 }

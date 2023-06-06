@@ -85,7 +85,7 @@ public class ConfigController extends BaseController
     {
         if (!configService.checkConfigKeyUnique(config))
         {
-            return error("新增参数'" + config.getConfigName() + "'失败，参数键名已存在");
+            return fail("新增参数'" + config.getConfigName() + "'失败，参数键名已存在");
         }
         return toAjax(configService.insertConfig(config));
     }
@@ -112,7 +112,7 @@ public class ConfigController extends BaseController
     {
         if (!configService.checkConfigKeyUnique(config))
         {
-            return error("修改参数'" + config.getConfigName() + "'失败，参数键名已存在");
+            return fail("修改参数'" + config.getConfigName() + "'失败，参数键名已存在");
         }
         return toAjax(configService.updateConfig(config));
     }

@@ -70,7 +70,7 @@ public class LoginController extends BaseController
             {
                 msg = e.getMessage();
             }
-            return error(msg);
+            return fail(msg);
         }
     }
 

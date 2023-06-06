@@ -84,7 +84,7 @@ public class DictTypeController extends BaseController
     {
         if (!dictTypeService.checkDictTypeUnique(dict))
         {
-            return error("新增字典'" + dict.getDictName() + "'失败，字典类型已存在");
+            return fail("新增字典'" + dict.getDictName() + "'失败，字典类型已存在");
         }
         return toAjax(dictTypeService.insertDictType(dict));
     }
@@ -111,7 +111,7 @@ public class DictTypeController extends BaseController
     {
         if (!dictTypeService.checkDictTypeUnique(dict))
         {
-            return error("修改字典'" + dict.getDictName() + "'失败，字典类型已存在");
+            return fail("修改字典'" + dict.getDictName() + "'失败，字典类型已存在");
         }
         return toAjax(dictTypeService.updateDictType(dict));
     }

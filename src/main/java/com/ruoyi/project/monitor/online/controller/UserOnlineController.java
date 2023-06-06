@@ -67,16 +67,16 @@ public class UserOnlineController extends BaseController
             UserOnline online = userOnlineService.selectOnlineById(sessionId);
             if (online == null)
             {
-                return error("用户已下线");
+                return fail("用户已下线");
             }
             OnlineSession onlineSession = (OnlineSession) onlineSessionDAO.readSession(online.getSessionId());
             if (onlineSession == null)
             {
-                return error("用户已下线");
+                return fail("用户已下线");
             }
             if (sessionId.equals(ShiroUtils.getSessionId()))
             {
-                return error("当前登录用户无法强退");
+                return fail("当前登录用户无法强退");
             }
             onlineSessionDAO.delete(onlineSession);
             online.setStatus(OnlineStatus.off_line);

@@ -80,11 +80,11 @@ public class ProfileController extends BaseController
         User user = getSysUser();
         if (!passwordService.matches(user, oldPassword))
         {
-            return error("修改密码失败，旧密码错误");
+            return fail("修改密码失败，旧密码错误");
         }
         if (passwordService.matches(user, newPassword))
         {
-            return error("新密码不能与旧密码相同");
+            return fail("新密码不能与旧密码相同");
         }
         user.setPassword(newPassword);
         user.setPwdUpdateDate(DateUtils.getNowDate());
@@ -93,7 +93,7 @@ public class ProfileController extends BaseController
             setSysUser(userService.selectUserById(user.getUserId()));
             return success();
         }
-        return error("修改密码异常，请联系管理员");
+        return fail("修改密码异常，请联系管理员");
     }
 
     /**
@@ -133,18 +133,18 @@ public class ProfileController extends BaseController
         currentUser.setSex(user.getSex());
         if (StringUtils.isNotEmpty(user.getPhonenumber()) && !userService.checkPhoneUnique(currentUser))
         {
-            return error("修改用户'" + currentUser.getLoginName() + "'失败，手机号码已存在");
+            return fail("修改用户'" + currentUser.getLoginName() + "'失败，手机号码已存在");
         }
         else if (StringUtils.isNotEmpty(user.getEmail()) && !userService.checkEmailUnique(currentUser))
         {
-            return error("修改用户'" + currentUser.getLoginName() + "'失败，邮箱账号已存在");
+            return fail("修改用户'" + currentUser.getLoginName() + "'失败，邮箱账号已存在");
         }
         if (userService.updateUserInfo(currentUser) > 0)
         {
             setSysUser(userService.selectUserById(currentUser.getUserId()));
             return success();
         }
-        return error();
+        return fail();
     }
 
     /**
@@ -168,12 +168,12 @@ public class ProfileController extends BaseController
                     return success();
                 }
             }
-            return error();
+            return fail();
         }
         catch (Exception e)
         {
             log.error("修改头像失败！", e);
-            return error(e.getMessage());
+            return fail(e.getMessage());
         }
     }
 }

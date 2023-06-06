@@ -104,7 +104,7 @@ public class MenuController extends BaseController
     {
         if (!menuService.checkMenuNameUnique(menu))
         {
-            return error("新增菜单'" + menu.getMenuName() + "'失败，菜单名称已存在");
+            return fail("新增菜单'" + menu.getMenuName() + "'失败，菜单名称已存在");
         }
         AuthorizationUtils.clearAllCachedAuthorizationInfo();
         return toAjax(menuService.insertMenu(menu));
@@ -132,7 +132,7 @@ public class MenuController extends BaseController
     {
         if (!menuService.checkMenuNameUnique(menu))
         {
-            return error("修改菜单'" + menu.getMenuName() + "'失败，菜单名称已存在");
+            return fail("修改菜单'" + menu.getMenuName() + "'失败，菜单名称已存在");
         }
         AuthorizationUtils.clearAllCachedAuthorizationInfo();
         return toAjax(menuService.updateMenu(menu));

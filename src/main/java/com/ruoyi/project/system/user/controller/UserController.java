@@ -127,15 +127,15 @@ public class UserController extends BaseController
     {
         if (!userService.checkLoginNameUnique(user))
         {
-            return error("新增用户'" + user.getLoginName() + "'失败，登录账号已存在");
+            return fail("新增用户'" + user.getLoginName() + "'失败，登录账号已存在");
         }
         else if (StringUtils.isNotEmpty(user.getPhonenumber()) && !userService.checkPhoneUnique(user))
         {
-            return error("新增用户'" + user.getLoginName() + "'失败，手机号码已存在");
+            return fail("新增用户'" + user.getLoginName() + "'失败，手机号码已存在");
         }
         else if (StringUtils.isNotEmpty(user.getEmail()) && !userService.checkEmailUnique(user))
         {
-            return error("新增用户'" + user.getLoginName() + "'失败，邮箱账号已存在");
+            return fail("新增用户'" + user.getLoginName() + "'失败，邮箱账号已存在");
         }
         return toAjax(userService.insertUser(user));
     }
@@ -168,15 +168,15 @@ public class UserController extends BaseController
         userService.checkUserDataScope(user.getUserId());
         if (!userService.checkLoginNameUnique(user))
         {
-            return error("修改用户'" + user.getLoginName() + "'失败，登录账号已存在");
+            return fail("修改用户'" + user.getLoginName() + "'失败，登录账号已存在");
         }
         else if (StringUtils.isNotEmpty(user.getPhonenumber()) && !userService.checkPhoneUnique(user))
         {
-            return error("修改用户'" + user.getLoginName() + "'失败，手机号码已存在");
+            return fail("修改用户'" + user.getLoginName() + "'失败，手机号码已存在");
         }
         else if (StringUtils.isNotEmpty(user.getEmail()) && !userService.checkEmailUnique(user))
         {
-            return error("修改用户'" + user.getLoginName() + "'失败，邮箱账号已存在");
+            return fail("修改用户'" + user.getLoginName() + "'失败，邮箱账号已存在");
         }
         AuthorizationUtils.clearAllCachedAuthorizationInfo();
         return toAjax(userService.updateUser(user));
@@ -206,7 +206,7 @@ public class UserController extends BaseController
             }
             return success();
         }
-        return error();
+        return fail();
     }
 
     /**
@@ -247,7 +247,7 @@ public class UserController extends BaseController
     {
         if (ArrayUtils.contains(Convert.toLongArray(ids), getUserId()))
         {
-            return error("当前用户不能删除");
+            return fail("当前用户不能删除");
         }
         return toAjax(userService.deleteUserByIds(ids));
     }
