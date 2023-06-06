@@ -2,7 +2,6 @@ package com.laien.demo.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.laien.demo.entity.FileMd5;
-import org.springframework.stereotype.Component;
 
 /**
  * <p>
