@@ -2,6 +2,7 @@ package com.laien.demo.controller;
 
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,7 +17,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import com.ruoyi.common.utils.poi.ExcelUtil;
-import org.springframework.web.bind.annotation.RestController;
 import com.laien.demo.controller.base.ResponseController;
 import com.laien.demo.controller.base.ResponseResult;
 import com.ruoyi.framework.web.domain.AjaxResult;
@@ -24,13 +24,13 @@ import com.laien.demo.response.PageRes;
 
 /**
  * 主题Controller
- * 
+ *
  * @author qmf
  * @date 2023-06-07
  */
 @Slf4j
 @Api(tags = "主题")
-@RestController
+@Controller
 @RequestMapping("/demoTheme")
 public class DemoThemeController extends ResponseController
 {
