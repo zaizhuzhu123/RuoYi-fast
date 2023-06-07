@@ -35,7 +35,7 @@ function login() {
             } else {
             	$('.imgcode').click();
             	$(".code").val("");
-            	$.modal.msg(r.msg);
+            	$.modal.msg(r.message);
             }
             $.modal.closeLoading();
         }

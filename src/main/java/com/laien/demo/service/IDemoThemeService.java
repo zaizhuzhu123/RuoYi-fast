@@ -25,7 +25,7 @@ public interface IDemoThemeService extends IService<DemoTheme> {
      * @param demoTheme 主题
      * @return 主题集合
      */
-    public PageRes<DemoTheme> selectDemoThemeList(Integer pageNum, Integer pageSize,DemoTheme demoTheme);
+    public PageRes<DemoTheme> selectDemoThemeList(Integer pageNum, Integer pageSize, DemoTheme demoTheme);
 
     /**
      * 新增主题

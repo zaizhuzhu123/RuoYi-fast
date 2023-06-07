@@ -171,11 +171,11 @@ public class VelocityUtils
 
         if (template.contains("domain.java.vm"))
         {
-            fileName = StringUtils.format("{}/{}/domain/{}.java", javaPath, businessName, className);
+            fileName = StringUtils.format("{}/{}/entity/{}.java", javaPath, businessName, className);
         }
         if (template.contains("sub-domain.java.vm") && StringUtils.equals(GenConstants.TPL_SUB, genTable.getTplCategory()))
         {
-            fileName = StringUtils.format("{}/{}/domain/{}.java", javaPath, businessName, genTable.getSubTable().getClassName());
+            fileName = StringUtils.format("{}/{}/entity/{}.java", javaPath, businessName, genTable.getSubTable().getClassName());
         }
         else if (template.contains("mapper.java.vm"))
         {
@@ -195,7 +195,7 @@ public class VelocityUtils
         }
         else if (template.contains("mapper.xml.vm"))
         {
-            fileName = StringUtils.format("{}/{}Mapper.xml", mybatisPath, className);
+            fileName = StringUtils.format("mapper/{}Mapper.xml", className);
         }
         else if (template.contains("list.html.vm"))
         {
