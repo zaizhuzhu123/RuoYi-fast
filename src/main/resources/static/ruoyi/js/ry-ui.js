@@ -183,15 +183,15 @@ var table = {
                 var thisOptions = table.config[this.id];
                 if (res.code == web_status.SUCCESS) {
                     if ($.common.isNotEmpty(thisOptions.sidePagination) && thisOptions.sidePagination == 'client') {
-                        return res.pageRes.list;
+                        return res.data.list;
                     } else {
                         if ($.common.isNotEmpty(thisOptions.rememberSelected) && thisOptions.rememberSelected) {
                             var column = $.common.isEmpty(thisOptions.uniqueId) ? thisOptions.columns[1].field : thisOptions.uniqueId;
-                            $.each(res.pageRes.list, function(i, row) {
+                            $.each(res.data.list, function(i, row) {
                                 row.state = $.inArray(row[column], table.rememberSelectedIds[thisOptions.id]) !== -1;
                             })
                         }
-                        return { rows: res.pageRes.list, total: res.pageRes.total };
+                        return { rows: res.data.list, total: res.data.total };
                     }
                 } else {
                     $.modal.alertWarning(res.message);

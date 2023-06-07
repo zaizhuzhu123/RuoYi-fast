@@ -71,7 +71,7 @@ public class DemoThemeController extends ResponseController
         PageRes<DemoTheme> page = demoThemeService.selectDemoThemeList(1, 10000, demoTheme);
         ExcelUtil<DemoTheme> util = new ExcelUtil<DemoTheme>(DemoTheme.class);
         AjaxResult result = util.exportExcel(page.getList(), "主题数据");
-        return succ(result.get(AjaxResult.DATA_TAG));
+        return succ(String.valueOf(result.get(AjaxResult.MSG_TAG)), null);
     }
 
     /**

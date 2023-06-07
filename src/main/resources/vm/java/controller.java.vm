@@ -86,7 +86,7 @@ public class ${ClassName}Controller extends ResponseController
         PageRes<${ClassName}> page = ${className}Service.select${ClassName}List(1, 10000, ${className});
         ExcelUtil<${ClassName}> util = new ExcelUtil<${ClassName}>(${ClassName}.class);
         AjaxResult result = util.exportExcel(page.getList(), "${functionName}数据");
-        return succ(result.get(AjaxResult.DATA_TAG));
+        return succ(String.valueOf(result.get(AjaxResult.MSG_TAG)), null);
     }
 
 #if($table.crud || $table.sub)

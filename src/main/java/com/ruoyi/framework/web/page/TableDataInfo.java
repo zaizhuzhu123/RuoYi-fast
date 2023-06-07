@@ -26,14 +26,14 @@ public class TableDataInfo implements Serializable
     /** 消息内容 */
     private String message;
 
-    private PageRes pageRes;
+    private PageRes data;
 
     /**
      * 表格数据对象
      */
     public TableDataInfo()
     {
-        pageRes = new PageRes();
+        data = new PageRes();
     }
 
     /**
@@ -44,9 +44,9 @@ public class TableDataInfo implements Serializable
      */
     public TableDataInfo(List<?> list, int total)
     {
-        pageRes = new PageRes();
-        pageRes.setList(list);
-        pageRes.setTotal(total);
+        data = new PageRes();
+        data.setList(list);
+        data.setTotal(total);
 //        this.rows = list;
 //        this.total = total;
     }
@@ -59,7 +59,7 @@ public class TableDataInfo implements Serializable
     public void setTotal(long total)
     {
 //        this.total = total;
-        pageRes.setTotal(total);
+        data.setTotal(total);
 
     }
 
@@ -70,7 +70,7 @@ public class TableDataInfo implements Serializable
 //
     public void setRows(List<?> rows)
     {
-        pageRes.setList(rows);
+        data.setList(rows);
 //        this.rows = rows;
     }
 
@@ -94,11 +94,11 @@ public class TableDataInfo implements Serializable
         this.message = message;
     }
 
-    public PageRes getPageRes() {
-        return pageRes;
+    public PageRes getData() {
+        return data;
     }
 
-    public void setPageRes(PageRes pageRes) {
-        this.pageRes = pageRes;
+    public void setData(PageRes data) {
+        this.data = data;
     }
 }

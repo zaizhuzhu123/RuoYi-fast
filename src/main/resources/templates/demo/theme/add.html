@@ -29,7 +29,7 @@
 
         function submitHandler() {
             if ($.validate.form()) {
-                $.operate.save(prefix + "/add", $('#form-theme-add').serialize());
+                $.operate.save("/demoTheme" + "/add", $('#form-theme-add').serialize());
             }
         }
     </script>

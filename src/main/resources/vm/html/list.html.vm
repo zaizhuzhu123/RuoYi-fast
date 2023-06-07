@@ -97,11 +97,11 @@
 
         $(function() {
             var options = {
-                url: prefix + "/list",
-                createUrl: prefix + "/add",
-                updateUrl: prefix + "/edit/{id}",
-                removeUrl: prefix + "/remove",
-                exportUrl: prefix + "/export",
+                url: "/${className}" + "/list",
+                createUrl: "/${className}" + "/add",
+                updateUrl: "/${className}" + "/edit/{id}",
+                removeUrl: "/${className}" + "/remove",
+                exportUrl: "/${className}" + "/export",
                 modalName: "${functionName}",
                 columns: [{
                     checkbox: true

@@ -204,7 +204,7 @@
 
         function submitHandler() {
             if ($.validate.form()) {
-                $.operate.save(prefix + "/add", $('#form-${businessName}-add').serialize());
+                $.operate.save("/${className}" + "/add", $('#form-${businessName}-add').serialize());
             }
         }
 #foreach($column in $columns)

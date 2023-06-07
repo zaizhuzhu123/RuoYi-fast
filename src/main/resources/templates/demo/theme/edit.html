@@ -30,7 +30,7 @@
 
         function submitHandler() {
             if ($.validate.form()) {
-                $.operate.save(prefix + "/edit", $('#form-theme-edit').serialize());
+                $.operate.save("/demoTheme" + "/edit", $('#form-theme-edit').serialize());
             }
         }
     </script>

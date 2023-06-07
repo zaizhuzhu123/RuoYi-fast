@@ -45,6 +45,8 @@
         <tika-core.version>1.24.1</tika-core.version>
         <knife4j.version>2.0.9</knife4j.version>
         <afterburner.version>2.12.0</afterburner.version>
+        <commons-lang3.version>3.12.0</commons-lang3.version>
+        <commons-collections.version>3.2.2</commons-collections.version>
     </properties>
 
     <dependencies>
@@ -124,6 +126,13 @@
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
+            <version>${commons-lang3.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-collections</groupId>
+            <artifactId>commons-collections</artifactId>
+            <version>${commons-collections.version}</version>
         </dependency>
 
         <!-- io常用工具类 -->
@@ -266,11 +275,24 @@
             <version>${afterburner.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jsr310</artifactId>
+            <version>2.13.4</version>
+        </dependency>
+
         <!-- 获取系统信息 -->
         <dependency>
             <groupId>com.github.oshi</groupId>
             <artifactId>oshi-core</artifactId>
             <version>${oshi.version}</version>
+        </dependency>
+
+        <!-- common lang -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>${commons-lang3.version}</version>
         </dependency>
 
         <!-- excel工具 -->
