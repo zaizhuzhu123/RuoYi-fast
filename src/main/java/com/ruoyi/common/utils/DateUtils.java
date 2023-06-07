@@ -44,6 +44,16 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils
     }
 
     /**
+     * 获取当前Date型日期
+     *
+     * @return Date() 当前日期
+     */
+    public static LocalDateTime getNowLocalDateTime()
+    {
+        return LocalDateTime.now();
+    }
+
+    /**
      * 获取当前日期, 默认格式为yyyy-MM-dd
      * 
      * @return String

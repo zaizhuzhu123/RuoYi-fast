@@ -362,11 +362,11 @@ public class GenTable extends BaseEntity
 
     public static boolean isSuperColumn(String tplCategory, String javaField)
     {
-        if (isTree(tplCategory))
-        {
-            return StringUtils.equalsAnyIgnoreCase(javaField,
-                    ArrayUtils.addAll(GenConstants.TREE_ENTITY, GenConstants.BASE_ENTITY));
-        }
-        return StringUtils.equalsAnyIgnoreCase(javaField, GenConstants.BASE_ENTITY);
+//        if (isTree(tplCategory))
+//        {
+//            return StringUtils.equalsAnyIgnoreCase(javaField,
+//                    ArrayUtils.addAll(GenConstants.TREE_ENTITY, GenConstants.BASE_ENTITY));
+//        }
+        return StringUtils.equalsAnyIgnoreCase(javaField, GenConstants.BASE_MODEL);
     }
 }

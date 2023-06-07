@@ -1,6 +1,8 @@
 package com.laien.demo.controller.base;
 
 
+import com.ruoyi.common.utils.PageUtils;
+
 /**
  * rest 返回结果封装
  *
@@ -78,4 +80,10 @@ public class ResponseController {
     public <T> ResponseResult<T> fail(ResponseCode responseCode) {
         return ResponseResult.fail(responseCode.getCode(), responseCode.getMsg());
     }
+
+    protected void startPage()
+    {
+        PageUtils.startPage();
+    }
+
 }
