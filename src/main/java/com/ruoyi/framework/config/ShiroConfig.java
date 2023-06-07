@@ -6,7 +6,6 @@ import java.io.InputStream;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import javax.servlet.Filter;
-
 import org.apache.commons.io.IOUtils;
 import org.apache.shiro.cache.ehcache.EhCacheManager;
 import org.apache.shiro.codec.Base64;
@@ -26,6 +25,8 @@ import com.ruoyi.common.constant.Constants;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.security.CipherUtils;
 import com.ruoyi.common.utils.spring.SpringUtils;
+import com.ruoyi.framework.jwt.auth.AllowAllCredentialsMatcher;
+import com.ruoyi.framework.jwt.filter.JwtFilter;
 import com.ruoyi.framework.shiro.realm.UserRealm;
 import com.ruoyi.framework.shiro.session.OnlineSessionDAO;
 import com.ruoyi.framework.shiro.session.OnlineSessionFactory;
@@ -45,7 +46,8 @@ import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
  * @author ruoyi
  */
 @Configuration
-public class ShiroConfig {
+public class ShiroConfig
+{
     /**
      * Session超时时间，单位为毫秒（默认30分钟）
      */
@@ -134,13 +136,17 @@ public class ShiroConfig {
      * 缓存管理器 使用Ehcache实现
      */
     @Bean
-    public EhCacheManager getEhCacheManager() {
+    public EhCacheManager getEhCacheManager()
+    {
         net.sf.ehcache.CacheManager cacheManager = net.sf.ehcache.CacheManager.getCacheManager("ruoyi");
         EhCacheManager em = new EhCacheManager();
-        if (StringUtils.isNull(cacheManager)) {
+        if (StringUtils.isNull(cacheManager))
+        {
             em.setCacheManager(new net.sf.ehcache.CacheManager(getCacheManagerConfigFileInputStream()));
             return em;
-        } else {
+        }
+        else
+        {
             em.setCacheManager(cacheManager);
             return em;
         }
@@ -149,18 +155,24 @@ public class ShiroConfig {
     /**
      * 返回配置文件流 避免ehcache配置文件一直被占用，无法完全销毁项目重新部署
      */
-    protected InputStream getCacheManagerConfigFileInputStream() {
+    protected InputStream getCacheManagerConfigFileInputStream()
+    {
         String configFile = "classpath:ehcache/ehcache-shiro.xml";
         InputStream inputStream = null;
-        try {
+        try
+        {
             inputStream = ResourceUtils.getInputStreamForPath(configFile);
             byte[] b = IOUtils.toByteArray(inputStream);
             InputStream in = new ByteArrayInputStream(b);
             return in;
-        } catch (IOException e) {
+        }
+        catch (IOException e)
+        {
             throw new ConfigurationException(
                     "Unable to obtain input stream for cacheManagerConfigFile [" + configFile + "]", e);
-        } finally {
+        }
+        finally
+        {
             IOUtils.closeQuietly(inputStream);
         }
     }
@@ -169,10 +181,12 @@ public class ShiroConfig {
      * 自定义Realm
      */
     @Bean
-    public UserRealm userRealm(EhCacheManager cacheManager) {
+    public UserRealm userRealm(EhCacheManager cacheManager)
+    {
         UserRealm userRealm = new UserRealm();
         userRealm.setAuthorizationCacheName(Constants.SYS_AUTH_CACHE);
         userRealm.setCacheManager(cacheManager);
+        userRealm.setCredentialsMatcher(new AllowAllCredentialsMatcher());
         return userRealm;
     }
 
@@ -180,7 +194,8 @@ public class ShiroConfig {
      * 自定义sessionDAO会话
      */
     @Bean
-    public OnlineSessionDAO sessionDAO() {
+    public OnlineSessionDAO sessionDAO()
+    {
         OnlineSessionDAO sessionDAO = new OnlineSessionDAO();
         return sessionDAO;
     }
@@ -189,7 +204,8 @@ public class ShiroConfig {
      * 自定义sessionFactory会话
      */
     @Bean
-    public OnlineSessionFactory sessionFactory() {
+    public OnlineSessionFactory sessionFactory()
+    {
         OnlineSessionFactory sessionFactory = new OnlineSessionFactory();
         return sessionFactory;
     }
@@ -198,7 +214,8 @@ public class ShiroConfig {
      * 会话管理器
      */
     @Bean
-    public OnlineWebSessionManager sessionManager() {
+    public OnlineWebSessionManager sessionManager()
+    {
         OnlineWebSessionManager manager = new OnlineWebSessionManager();
         // 加入缓存管理器
         manager.setCacheManager(getEhCacheManager());
@@ -223,7 +240,8 @@ public class ShiroConfig {
      * 安全管理器
      */
     @Bean
-    public SecurityManager securityManager(UserRealm userRealm) {
+    public SecurityManager securityManager(UserRealm userRealm)
+    {
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
         // 设置realm.
         securityManager.setRealm(userRealm);
@@ -239,7 +257,8 @@ public class ShiroConfig {
     /**
      * 退出过滤器
      */
-    public LogoutFilter logoutFilter() {
+    public LogoutFilter logoutFilter()
+    {
         LogoutFilter logoutFilter = new LogoutFilter();
         logoutFilter.setLoginUrl(loginUrl);
         return logoutFilter;
@@ -249,7 +268,8 @@ public class ShiroConfig {
      * Shiro过滤器配置
      */
     @Bean
-    public ShiroFilterFactoryBean shiroFilterFactoryBean(SecurityManager securityManager) {
+    public ShiroFilterFactoryBean shiroFilterFactoryBean(SecurityManager securityManager)
+    {
         CustomShiroFilterFactoryBean shiroFilterFactoryBean = new CustomShiroFilterFactoryBean();
         // Shiro的核心安全接口,这个属性是必须的
         shiroFilterFactoryBean.setSecurityManager(securityManager);
@@ -271,19 +291,11 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/js/**", "anon");
         filterChainDefinitionMap.put("/ruoyi/**", "anon");
         filterChainDefinitionMap.put("/captcha/captchaImage**", "anon");
-        //放过swagger相关
-        filterChainDefinitionMap.put("/doc.html", "anon");
-        filterChainDefinitionMap.put("/webjars/**/**", "anon");
-        filterChainDefinitionMap.put("/swagger/**", "anon");
-        filterChainDefinitionMap.put("/v2/**", "anon");
-        filterChainDefinitionMap.put("/static/**", "anon");
-        filterChainDefinitionMap.put("/swagger-resources/**", "anon");
-        //放过所有的app接口
-        filterChainDefinitionMap.put("/app/**", "anon");
         // 退出 logout地址，shiro去清除session
         filterChainDefinitionMap.put("/logout", "logout");
         // 不需要拦截的访问
         filterChainDefinitionMap.put("/login", "anon,captchaValidate");
+        filterChainDefinitionMap.put("/jwt/login", "anon");
         // 注册相关
         filterChainDefinitionMap.put("/register", "anon,captchaValidate");
         // 系统权限列表
@@ -294,9 +306,13 @@ public class ShiroConfig {
         filters.put("syncOnlineSession", syncOnlineSessionFilter());
         filters.put("captchaValidate", captchaValidateFilter());
         filters.put("kickout", kickoutSessionFilter());
+        filters.put("jwt", new JwtFilter());
         // 注销成功，则跳转到指定页面
         filters.put("logout", logoutFilter());
         shiroFilterFactoryBean.setFilters(filters);
+
+        // jwt 请求单独验证
+        filterChainDefinitionMap.put("/api/**", "jwt");
 
         // 所有请求需要认证
         filterChainDefinitionMap.put("/**", "user,kickout,onlineSession,syncOnlineSession");
@@ -308,7 +324,8 @@ public class ShiroConfig {
     /**
      * 自定义在线用户处理过滤器
      */
-    public OnlineSessionFilter onlineSessionFilter() {
+    public OnlineSessionFilter onlineSessionFilter()
+    {
         OnlineSessionFilter onlineSessionFilter = new OnlineSessionFilter();
         onlineSessionFilter.setLoginUrl(loginUrl);
         onlineSessionFilter.setOnlineSessionDAO(sessionDAO());
@@ -318,7 +335,8 @@ public class ShiroConfig {
     /**
      * 自定义在线用户同步过滤器
      */
-    public SyncOnlineSessionFilter syncOnlineSessionFilter() {
+    public SyncOnlineSessionFilter syncOnlineSessionFilter()
+    {
         SyncOnlineSessionFilter syncOnlineSessionFilter = new SyncOnlineSessionFilter();
         syncOnlineSessionFilter.setOnlineSessionDAO(sessionDAO());
         return syncOnlineSessionFilter;
@@ -327,7 +345,8 @@ public class ShiroConfig {
     /**
      * 自定义验证码过滤器
      */
-    public CaptchaValidateFilter captchaValidateFilter() {
+    public CaptchaValidateFilter captchaValidateFilter()
+    {
         CaptchaValidateFilter captchaValidateFilter = new CaptchaValidateFilter();
         captchaValidateFilter.setCaptchaEnabled(captchaEnabled);
         captchaValidateFilter.setCaptchaType(captchaType);
@@ -337,7 +356,8 @@ public class ShiroConfig {
     /**
      * cookie 属性设置
      */
-    public SimpleCookie rememberMeCookie() {
+    public SimpleCookie rememberMeCookie()
+    {
         SimpleCookie cookie = new SimpleCookie("rememberMe");
         cookie.setDomain(domain);
         cookie.setPath(path);
@@ -349,12 +369,16 @@ public class ShiroConfig {
     /**
      * 记住我
      */
-    public CookieRememberMeManager rememberMeManager() {
+    public CookieRememberMeManager rememberMeManager()
+    {
         CookieRememberMeManager cookieRememberMeManager = new CookieRememberMeManager();
         cookieRememberMeManager.setCookie(rememberMeCookie());
-        if (StringUtils.isNotEmpty(cipherKey)) {
+        if (StringUtils.isNotEmpty(cipherKey))
+        {
             cookieRememberMeManager.setCipherKey(Base64.decode(cipherKey));
-        } else {
+        }
+        else
+        {
             cookieRememberMeManager.setCipherKey(CipherUtils.generateNewKey(128, "AES").getEncoded());
         }
         return cookieRememberMeManager;
@@ -363,7 +387,8 @@ public class ShiroConfig {
     /**
      * 同一个用户多设备登录限制
      */
-    public KickoutSessionFilter kickoutSessionFilter() {
+    public KickoutSessionFilter kickoutSessionFilter()
+    {
         KickoutSessionFilter kickoutSessionFilter = new KickoutSessionFilter();
         kickoutSessionFilter.setCacheManager(getEhCacheManager());
         kickoutSessionFilter.setSessionManager(sessionManager());
@@ -380,7 +405,8 @@ public class ShiroConfig {
      * thymeleaf模板引擎和shiro框架的整合
      */
     @Bean
-    public ShiroDialect shiroDialect() {
+    public ShiroDialect shiroDialect()
+    {
         return new ShiroDialect();
     }
 
@@ -389,7 +415,8 @@ public class ShiroConfig {
      */
     @Bean
     public AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor(
-            @Qualifier("securityManager") SecurityManager securityManager) {
+            @Qualifier("securityManager") SecurityManager securityManager)
+    {
         AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor = new AuthorizationAttributeSourceAdvisor();
         authorizationAttributeSourceAdvisor.setSecurityManager(securityManager);
         return authorizationAttributeSourceAdvisor;

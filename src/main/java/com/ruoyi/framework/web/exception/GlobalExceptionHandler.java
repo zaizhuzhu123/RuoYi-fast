@@ -1,6 +1,8 @@
 package com.ruoyi.framework.web.exception;
 
 import javax.servlet.http.HttpServletRequest;
+
+import com.ruoyi.framework.web.domain.AjaxResult;
 import org.apache.shiro.authz.AuthorizationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,12 +14,12 @@ import org.springframework.web.servlet.ModelAndView;
 import com.ruoyi.common.exception.DemoModeException;
 import com.ruoyi.common.exception.ServiceException;
 import com.ruoyi.common.utils.ServletUtils;
+import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.security.PermissionUtils;
-import com.ruoyi.framework.web.domain.AjaxResult;
 
 /**
  * 全局异常处理器
- * 
+ *
  * @author ruoyi
  */
 @RestControllerAdvice
@@ -33,7 +35,7 @@ public class GlobalExceptionHandler
     {
         String requestURI = request.getRequestURI();
         log.error("请求地址'{}',权限校验失败'{}'", requestURI, e.getMessage());
-        if (ServletUtils.isAjaxRequest(request))
+        if (ServletUtils.isAjaxRequest(request) || StringUtils.isNotEmpty(request.getHeader("token")))
         {
             return AjaxResult.error(PermissionUtils.getMsg(e.getMessage()));
         }
@@ -48,7 +50,7 @@ public class GlobalExceptionHandler
      */
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     public AjaxResult handleHttpRequestMethodNotSupported(HttpRequestMethodNotSupportedException e,
-            HttpServletRequest request)
+                                                          HttpServletRequest request)
     {
         String requestURI = request.getRequestURI();
         log.error("请求地址'{}',不支持'{}'请求", requestURI, e.getMethod());
