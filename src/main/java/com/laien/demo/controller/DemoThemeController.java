@@ -1,8 +1,5 @@
 package com.laien.demo.controller;
 
-import java.util.List;
-
-import com.ruoyi.framework.web.domain.AjaxResult;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
@@ -18,12 +15,12 @@ import com.laien.demo.service.IDemoThemeService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import com.ruoyi.framework.web.controller.BaseController;
 import com.ruoyi.common.utils.poi.ExcelUtil;
 import org.springframework.web.bind.annotation.RestController;
 import com.laien.demo.controller.base.ResponseController;
 import com.laien.demo.controller.base.ResponseResult;
-import com.ruoyi.framework.web.page.TableDataInfo;
+import com.ruoyi.framework.web.domain.AjaxResult;
+import com.laien.demo.response.PageRes;
 
 /**
  * 主题Controller
@@ -55,11 +52,11 @@ public class DemoThemeController extends ResponseController
     @RequiresPermissions("demo:theme:list")
     @PostMapping("/list")
     @ResponseBody
-    public TableDataInfo list(DemoTheme demoTheme)
+    public ResponseResult<PageRes<DemoTheme>> list(Integer pageNum,Integer pageSize,DemoTheme demoTheme)
     {
-        startPage();
-        List<DemoTheme> list = demoThemeService.selectDemoThemeList(demoTheme);
-        return getDataTable(list);
+
+        PageRes<DemoTheme> page = demoThemeService.selectDemoThemeList(pageNum, pageSize, demoTheme);
+        return succ(page);
     }
 
     /**
@@ -71,9 +68,9 @@ public class DemoThemeController extends ResponseController
     @ResponseBody
     public ResponseResult export(DemoTheme demoTheme)
     {
-        List<DemoTheme> list = demoThemeService.selectDemoThemeList(demoTheme);
+        PageRes<DemoTheme> page = demoThemeService.selectDemoThemeList(1, 10000, demoTheme);
         ExcelUtil<DemoTheme> util = new ExcelUtil<DemoTheme>(DemoTheme.class);
-        AjaxResult result = util.exportExcel(list, "主题数据");
+        AjaxResult result = util.exportExcel(page.getList(), "主题数据");
         return succ(result.get(AjaxResult.DATA_TAG));
     }
 

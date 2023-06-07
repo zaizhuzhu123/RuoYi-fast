@@ -1,9 +1,7 @@
 package com.laien.demo.service.impl;
 
 
-import java.util.List;
 import com.google.common.collect.Lists;
-import com.ruoyi.common.utils.DateUtils;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.laien.demo.entity.DemoTheme;
 import com.laien.demo.mapper.DemoThemeMapper;
@@ -12,10 +10,20 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import com.laien.demo.constant.GlobalConstant;
 import com.google.common.collect.Lists;
+import com.laien.demo.response.PageRes;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
-
+import com.ruoyi.common.utils.sql.SqlUtil;
+import com.ruoyi.framework.web.page.PageDomain;
+import com.ruoyi.framework.web.page.TableSupport;
 import com.ruoyi.common.utils.text.Convert;
-
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 /**
  * 主题Service业务层处理
  *
@@ -47,9 +55,26 @@ public class DemoThemeServiceImpl extends ServiceImpl<DemoThemeMapper, DemoTheme
      * @return 主题
      */
     @Override
-    public List<DemoTheme> selectDemoThemeList(DemoTheme demoTheme)
+    public PageRes<DemoTheme> selectDemoThemeList(Integer pageNum,Integer pageSize,DemoTheme demoTheme)
     {
-        return demoThemeMapper.selectDemoThemeList(demoTheme);
+        PageDomain pageDomain = TableSupport.buildPageRequest();
+        String orderBy = SqlUtil.escapeOrderBySql(pageDomain.getOrderBy());
+        Boolean reasonable = pageDomain.getReasonable();
+        Page<Object> page = PageHelper.startPage(pageNum, pageSize, orderBy).setReasonable(reasonable);
+        JSONObject jsonObject = JSON.parseObject(JSON.toJSONString(demoTheme));
+        Set<Map.Entry<String, Object>> entries = jsonObject.entrySet();
+        QueryWrapper<DemoTheme> queryWrapper = new QueryWrapper<>();
+        entries.stream().forEach(entry -> {
+            Object value = entry.getValue();
+            if (value != null) {
+                queryWrapper.eq(entry.getKey(), value);
+            }
+        });
+        if (!queryWrapper.isEmptyOfWhere()) {
+            List<DemoTheme> demoThemes = list(queryWrapper);
+            return new PageRes<>(pageNum, pageSize, page.getTotal(), page.getPages(), demoThemes);
+        }
+        return new PageRes<>(pageNum, pageSize, 0, 0, Lists.newArrayListWithCapacity(0));
     }
 
     /**

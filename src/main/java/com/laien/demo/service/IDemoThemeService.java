@@ -2,7 +2,7 @@ package com.laien.demo.service;
 
 import com.laien.demo.entity.DemoTheme;
 import com.baomidou.mybatisplus.extension.service.IService;
-import java.util.List;
+import com.laien.demo.response.PageRes;
 
 /**
  * 主题Service接口
@@ -25,7 +25,7 @@ public interface IDemoThemeService extends IService<DemoTheme> {
      * @param demoTheme 主题
      * @return 主题集合
      */
-    public List<DemoTheme> selectDemoThemeList(DemoTheme demoTheme);
+    public PageRes<DemoTheme> selectDemoThemeList(Integer pageNum, Integer pageSize,DemoTheme demoTheme);
 
     /**
      * 新增主题

@@ -183,18 +183,18 @@ var table = {
                 var thisOptions = table.config[this.id];
                 if (res.code == web_status.SUCCESS) {
                     if ($.common.isNotEmpty(thisOptions.sidePagination) && thisOptions.sidePagination == 'client') {
-                        return res.rows;
+                        return res.pageRes.list;
                     } else {
                         if ($.common.isNotEmpty(thisOptions.rememberSelected) && thisOptions.rememberSelected) {
                             var column = $.common.isEmpty(thisOptions.uniqueId) ? thisOptions.columns[1].field : thisOptions.uniqueId;
-                            $.each(res.rows, function(i, row) {
+                            $.each(res.pageRes.list, function(i, row) {
                                 row.state = $.inArray(row[column], table.rememberSelectedIds[thisOptions.id]) !== -1;
                             })
                         }
-                        return { rows: res.rows, total: res.total };
+                        return { rows: res.pageRes.list, total: res.pageRes.total };
                     }
                 } else {
-                    $.modal.alertWarning(res.msg);
+                    $.modal.alertWarning(res.message);
                     return { rows: [], total: 0 };
                 }
             },
@@ -670,7 +670,7 @@ var table = {
                     table.options.responseHandler(res);
                 }
                 if (res.code != undefined && res.code != web_status.SUCCESS) {
-                    $.modal.alertWarning(res.msg);
+                    $.modal.alertWarning(res.message);
                     return [];
                 } else {
                     return res;

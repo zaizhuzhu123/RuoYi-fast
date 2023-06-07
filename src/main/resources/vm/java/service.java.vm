@@ -2,7 +2,7 @@ package ${packageName}.service;
 
 import ${packageName}.entity.${ClassName};
 import com.baomidou.mybatisplus.extension.service.IService;
-import java.util.List;
+import com.laien.demo.response.PageRes;
 ###if($table.tree)
 ##import com.ruoyi.framework.web.domain.Ztree;
 ###end
@@ -28,7 +28,7 @@ public interface I${ClassName}Service extends IService<${ClassName}> {
      * @param ${className} ${functionName}
      * @return ${functionName}集合
      */
-    public List<${ClassName}> select${ClassName}List(${ClassName} ${className});
+    public PageRes<${ClassName}> select${ClassName}List(Integer pageNum, Integer pageSize,${ClassName} ${className});
 
     /**
      * 新增${functionName}
